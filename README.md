@@ -17,46 +17,59 @@ STEP-5: Display the cipher text obtained above.
 
 ## PROGRAM:
 ```
-#include <stdio.h> 
-#include <string.h> 
-#include <ctype.h> 
-void main() 
-{ 
-    char plain[10],cipher[10]; 
-    int key,i,length; 
-    int result; 
-    printf("\n Enter the plain text:"); 
-    scanf("%s", plain); 
-    printf("\n Enter the key value:"); 
-    scanf("%d", &key); 
-    printf("\n \n \t PLAIN TEXT: %s", plain); 
-    printf("\n \n \t ENCRYPTED TEXT:"); 
-    for(i=0, length = strlen(plain); i<length; i++) 
-    { 
-        cipher[i]=plain[i] + key; 
-        if (isupper(plain[i]) && (cipher[i] > 'Z')) 
-        cipher[i] = cipher[i] - 26; 
-        if (islower(plain[i]) && (cipher[i] > 'z')) 
-        cipher[i] = cipher[i] - 26; 
-        printf("%c", cipher[i]); 
-    } 
-    printf("\n \n \t AFTER DECRYPTION : "); 
-    for(i=0;i<length;i++) 
-    { 
-        plain[i]=cipher[i]-key; 
-        if(isupper(cipher[i])&&(plain[i]<'A')) 
-        plain[i]=plain[i]+26; 
-        if(islower(cipher[i])&&(plain[i]<'a')) 
-        plain[i]=plain[i]+26; 
-        printf("%c",plain[i]); 
-    } 
+
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+
+int main() {
+    char text[100], encrypted[100], decrypted[100];
+    int key, i;
+
+    printf("Enter text: ");
+    fgets(text, sizeof(text), stdin);
+
+    text[strcspn(text, "\n")] = '\0';
+
+    printf("Enter key: ");
+    scanf("%d", &key);
+
+    for(i = 0; text[i] != '\0'; i++) {
+        char ch = text[i];
+
+        if(isalpha(ch)) {
+            char base = islower(ch) ? 'a' : 'A';
+            encrypted[i] = (ch - base + key) % 26 + base;
+        } else {
+            encrypted[i] = ch;
+        }
+    }
+    encrypted[i] = '\0';
+
+    for(i = 0; encrypted[i] != '\0'; i++) {
+        char ch = encrypted[i];
+
+        if(isalpha(ch)) {
+            char base = islower(ch) ? 'a' : 'A';
+            decrypted[i] = (ch - base - key + 26) % 26 + base;
+        } else {
+            decrypted[i] = ch;
+        }
+    }
+    decrypted[i] = '\0';
+
+    printf("Encrypted: %s\n", encrypted);
+    printf("Decrypted: %s\n", decrypted);
+
+    return 0;
 }
 
 ```
 
 ## OUTPUT:
+<img width="1686" height="1001" alt="image" src="https://github.com/user-attachments/assets/1ced9a38-c1bc-4c8c-aa38-ffc7b77a20f6" />
 
-<img width="822" height="612" alt="image" src="https://github.com/user-attachments/assets/32f73bbe-d7e7-4396-ad23-5a295698eccb" />
+
 
 ## RESULT :
  Thus the implementation of ceasar cipher had been executed successfully.
